@@ -150,3 +150,133 @@
     width: 100%;
   }
 }
+.checker-section {
+  padding: 60px 40px 80px;
+}
+
+.checker-box {
+  max-width: 780px; /* mai lat */
+  margin: 0 auto;
+  border: 2px solid #000000;
+  border-radius: 14px;
+  padding: 36px 40px 40px;
+}
+
+.checker-title {
+  font-family: Roboto, Helvetica, sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: #111;
+  margin-bottom: 22px;
+}
+
+.checker-search-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.checker-input {
+  flex: 1;
+  height: 44px;
+  padding: 0 16px;
+  border: 1px solid #DADADA;
+  border-radius: 8px;
+  font-size: 15px;
+  color: #333;
+  outline: none;
+  background: #fafafa;
+}
+
+.checker-input::placeholder { color: #AAAAAA; }
+.checker-input:focus { border-color: #5BB8E8; background: #fff; }
+
+.checker-btn {
+  height: 44px;
+  padding: 0 26px;
+  border: 1.5px solid #F05A00;
+  background: transparent;
+  color: #F05A00;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 22px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  white-space: nowrap;
+}
+
+.checker-btn:hover { background: #F05A00; color: #fff; }
+.checker-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.checker-results {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-height: 100px;
+}
+
+.checker-placeholder {
+  color: #999;
+  font-size: 14px;
+  text-align: center;
+  padding-top: 24px;
+}
+
+/* Card cu imagine */
+.song-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 16px;
+  border-bottom: 1px solid #f0f0f0;
+  border-radius: 8px;
+  transition: background 0.15s;
+  cursor: default;
+}
+
+.song-card:hover { background: #fafafa; }
+
+.song-cover {
+  width: 64px;
+  height: 64px;
+  border-radius: 8px;
+  object-fit: cover;
+  flex-shrink: 0;
+  background: #eee;
+}
+
+.song-cover-placeholder {
+  width: 64px;
+  height: 64px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #f0f0f0, #ddd);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  flex-shrink: 0;
+}
+
+.song-info { flex: 1; min-width: 0; }
+
+.song-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: #111;
+  margin-bottom: 3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.song-artist {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 5px;
+}
+
+.song-listeners {
+  font-size: 12px;
+  color: #F05A00;
+}
