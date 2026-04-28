@@ -78,15 +78,19 @@ function showResults(tracks) {
       ? `<img class="song-cover" src="${imgUrl}" alt="${name}" onerror="this.outerHTML='<div class=\\'song-cover-placeholder\\'>🎵</div>'">`
       : `<div class="song-cover-placeholder">🎵</div>`;
 
+    const ytQuery = encodeURIComponent(`${name} ${artist}`);
+    const ytUrl = `https://www.youtube.com/results?search_query=${ytQuery}`;
+ 
     return `
-      <div class="song-card">
+      <a class="song-card" href="${ytUrl}" target="_blank" rel="noopener noreferrer" title="Asculta pe YouTube">
         ${cover}
         <div class="song-info">
           <div class="song-name">${name}</div>
           <div class="song-artist">${artist}</div>
           <div class="song-listeners">🎵 ${listeners} listeners</div>
         </div>
-      </div>
+        <div class="song-yt-icon">▶</div>
+      </a>
     `;
   }).join('');
 }
