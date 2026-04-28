@@ -280,3 +280,24 @@
   font-size: 12px;
   color: #F05A00;
 }
+.song-card {
+  text-decoration: none;  
+  cursor: pointer;        
+}
+
+.song-card:hover {
+  background: #fff5f0;    
+  border-color: #F05A00;
+}
+
+.song-yt-icon {
+  font-size: 20px;
+  color: #F05A00;
+  opacity: 0;
+  transition: opacity 0.2s;
+  flex-shrink: 0;
+}
+
+.song-card:hover .song-yt-icon {
+  opacity: 1;
+}
