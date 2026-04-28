@@ -301,3 +301,34 @@
 .song-card:hover .song-yt-icon {
   opacity: 1;
 }
+.favorites-section {
+  padding: 0 40px 80px;
+}
+
+.favorites-box {
+  max-width: 780px;
+  margin: 0 auto;
+  border: 2px solid #F05A00;
+  border-radius: 14px;
+  padding: 36px 40px 40px;
+}
+
+.favorites-title {
+  font-family: Roboto, Helvetica, sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: #111;
+  margin-bottom: 22px;
+}
+
+.fav-btn {
+  background: none;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  margin-left: auto;
+  flex-shrink: 0;
+  transition: transform 0.2s;
+}
+
+.fav-btn:hover { transform: scale(1.2); }
