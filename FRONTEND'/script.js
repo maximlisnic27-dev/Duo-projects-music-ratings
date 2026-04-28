@@ -7,6 +7,69 @@ const LASTFM_BASE = 'https://ws.audioscrobbler.com/2.0/';
 const searchBtn = document.getElementById('searchBtn');
 const musicInput = document.getElementById('musicInput');
 const resultsContainer = document.getElementById('checkerResults');
+function getFavorites() {
+  return JSON.parse(localStorage.getItem('favorites') || '[]');
+}
+
+function saveFavorites(favs) {
+  localStorage.setItem('favorites', JSON.stringify(favs));
+}
+
+function isFavorite(name, artist) {
+  return getFavorites().some(f => f.name === name && f.artist === artist);
+}
+
+function toggleFavorite(track) {
+  let favs = getFavorites();
+  const exists = favs.some(f => f.name === track.name && f.artist === track.artist);
+  if (exists) {
+    favs = favs.filter(f => !(f.name === track.name && f.artist === track.artist));
+  } else {
+    favs.push(track);
+  }
+  saveFavorites(favs);
+  renderFavorites();
+  document.querySelectorAll('.fav-btn').forEach(btn => {
+    const n = btn.getAttribute('data-name');
+    const a = btn.getAttribute('data-artist');
+    btn.textContent = isFavorite(n, a) ? '❤️' : '🤍';
+  });
+}
+
+function renderFavorites() {
+  const container = document.getElementById('favoritesResults');
+  if (!container) return;
+  const favs = getFavorites();
+  if (favs.length === 0) {
+    container.innerHTML = '<p class="checker-placeholder">Nicio melodie la favorite...</p>';
+    return;
+  }
+  container.innerHTML = favs.map(t => {
+    const ytQuery = encodeURIComponent(`${t.name} ${t.artist}`);
+    const ytUrl = `https://www.youtube.com/results?search_query=${ytQuery}`;
+    const cover = t.img
+      ? `<img class="song-cover" src="${t.img}" alt="${t.name}" onerror="this.outerHTML='<div class=\\'song-cover-placeholder\\'>🎵</div>'">`
+      : `<div class="song-cover-placeholder">🎵</div>`;
+    const trackData = encodeURIComponent(JSON.stringify(t));
+    return `
+      <div class="song-card">
+        <a href="${ytUrl}" target="_blank" rel="noopener noreferrer"
+           style="display:flex;align-items:center;gap:16px;flex:1;text-decoration:none;color:inherit;">
+          ${cover}
+          <div class="song-info">
+            <div class="song-name">${t.name}</div>
+            <div class="song-artist">${t.artist}</div>
+            <div class="song-listeners">🎵 ${t.listeners} listeners</div>
+          </div>
+        </a>
+        <button class="fav-btn" data-name="${t.name}" data-artist="${t.artist}"
+          onclick="toggleFavorite(JSON.parse(decodeURIComponent('${trackData}')))"
+          title="Sterge din favorite">❤️</button>
+      </div>`;
+  }).join('');
+}
+
+renderFavorites();
 
 searchBtn.addEventListener('click', () => {
   const q = musicInput.value.trim();
@@ -73,6 +136,7 @@ function showResults(tracks) {
     const artist = t.artist?.name || t.artist || '—';
     const listeners = formatNum(t.listeners);
     const imgUrl = getImage(t.album?.image);
+    const fav = isFavorite(name, artist);
 
     const cover = imgUrl
       ? `<img class="song-cover" src="${imgUrl}" alt="${name}" onerror="this.outerHTML='<div class=\\'song-cover-placeholder\\'>🎵</div>'">`
@@ -80,18 +144,20 @@ function showResults(tracks) {
 
     const ytQuery = encodeURIComponent(`${name} ${artist}`);
     const ytUrl = `https://www.youtube.com/results?search_query=${ytQuery}`;
- 
+    const trackData = encodeURIComponent(JSON.stringify({ name, artist, listeners, img: imgUrl || '' }));
+
     return `
-      <a class="song-card" href="${ytUrl}" target="_blank" rel="noopener noreferrer" title="Asculta pe YouTube">
+      <a class="song-card" href="${ytUrl}" target="_blank" rel="noopener noreferrer">
         ${cover}
         <div class="song-info">
           <div class="song-name">${name}</div>
           <div class="song-artist">${artist}</div>
           <div class="song-listeners">🎵 ${listeners} listeners</div>
         </div>
-        <div class="song-yt-icon">▶</div>
-      </a>
-    `;
+        <button class="fav-btn" data-name="${name}" data-artist="${artist}"
+          onclick="event.preventDefault(); toggleFavorite(JSON.parse(decodeURIComponent('${trackData}')))"
+          title="${fav ? 'Sterge din favorite' : 'Adauga la favorite'}">${fav ? '❤️' : '🤍'}</button>
+      </a>`;
   }).join('');
 }
 
